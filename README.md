@@ -7,6 +7,7 @@ A Claude Code plugin bundling personal skills for planning and engineering workf
 | Skill | Description |
 | :---- | :---------- |
 | [`/kady-skills:concise`](skills/concise/SKILL.md) | Enter concise reporting mode — human-facing text gets short and plain; agent-facing documents keep full detail. |
+| [`/kady-skills:describe-pr`](skills/describe-pr/SKILL.md) | Write a PR title and description that say only what the diff can't — tickets up top, operational notes surfaced, a signposted reading path through the diff, a diagram only when it earns its place. |
 | [`/kady-skills:draft-plan`](skills/draft-plan/SKILL.md) | Draft a self-contained implementation plan in the project's plans directory as a handover document another agent can ship independently. |
 | [`/kady-skills:grill-me-simple`](skills/grill-me-simple/SKILL.md) | Interview the user in rounds over a design decision tree, asking only what's ready to be asked, until every branch is decided or explicitly assumed. |
 | [`/kady-skills:orchestrate`](skills/orchestrate/SKILL.md) | Enter orchestration mode — delegate discovery, implementation, and verification to subagents and ultracode workflows, and keep your own context clean for planning and synthesis. |
