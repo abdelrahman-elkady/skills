@@ -1,13 +1,24 @@
 ---
 name: concise
 description: Enter concise mode for the rest of the session — human-facing text gets short and plain; agent-facing documents keep full detail.
+argument-hint: "[once]"
 disable-model-invocation: true
 user-invocable: true
 ---
 
 # /concise — fewer words, plain words
 
-**Concise mode is on** for the rest of this session — apply it to every reply, not just the next one. It changes how you communicate, not how you work.
+**Concise mode is on** — for the rest of the session by default, or the narrower scope below. It changes how you communicate, not how you work.
+
+## Scope
+
+**`/concise` on its own** — every reply for the rest of the session, not just the next one.
+
+Sticky is the whole point. It holds through long tool runs, a change of topic, a compaction, a message where the user wrote at length. Sliding back to your normal register after a reply or two is the failure mode, not natural decay — the mode is off only when the user says so.
+
+**`/concise once`, or any argument naming a narrower scope** — this reply only, then back to your normal register.
+
+**Another skill sent you here** — you read this file rather than invoking it: these rules govern the document that skill is writing, and nothing else. The session's register doesn't change.
 
 ## The one rule
 
