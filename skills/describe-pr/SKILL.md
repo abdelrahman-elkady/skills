@@ -16,7 +16,7 @@ Read the real diff (`gh pr diff`, or `git diff <base>...HEAD`) and fetch every t
 
 Read its `SKILL.md` before drafting — `.claude/skills/concise/`, `~/.claude/skills/concise/`, or `~/.claude/plugins/**/skills/concise/`. Not via the Skill tool: concise sets `disable-model-invocation`, so the call is rejected. **It governs the register and the separation; this file governs what goes in and how tight it gets.** Its *give each distinct idea its own visible spot* binds here in full: the separation lands in bold lead-ins and bullets under `##` headings, not concise's `###` device.
 
-Not installed: write the PR anyway — a hint, never a gate — and say so once in chat, never in the body: `npx skills add abdelrahman-elkady/kady-plugins --skill concise -a claude-code`.
+Not installed: write the PR anyway — a hint, never a gate — and say so once in chat, never in the body: `npx skills add abdelrahman-elkady/skills --skill concise -a claude-code`.
 
 ## The diagram test
 

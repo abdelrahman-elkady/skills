@@ -20,23 +20,23 @@ A Claude Code plugin bundling personal skills for planning and engineering workf
 
 ```bash
 # Browse the plugin's skills and pick interactively
-npx skills add abdelrahman-elkady/kady-plugins -a claude-code
+npx skills add abdelrahman-elkady/skills -a claude-code
 
 # Or install a specific skill directly
-npx skills add abdelrahman-elkady/kady-plugins --skill draft-plan -a claude-code
+npx skills add abdelrahman-elkady/skills --skill draft-plan -a claude-code
 ```
 
 ### As a Claude Code plugin
 
 ```
-/plugin marketplace add abdelrahman-elkady/kady-plugins
-/plugin install kady-skills@kady-plugins
+/plugin marketplace add abdelrahman-elkady/skills
+/plugin install kady-skills@skills
 ```
 
 ### From a local clone (development)
 
 ```bash
-claude --plugin-dir /path/to/kady-plugins
+claude --plugin-dir /path/to/skills
 ```
 
 Then invoke a skill, e.g.:
