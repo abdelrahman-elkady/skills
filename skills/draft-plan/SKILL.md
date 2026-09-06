@@ -7,7 +7,7 @@ argument-hint: "[slug]"
 allowed-tools: Read Glob Bash(ls *) Bash(find *) Bash(mkdir *) Write
 ---
 
-# /draft-plan — Create a handover plan
+# /draft-plan - Create a handover plan
 
 Convert a completed design discussion (typically a grilling or brainstorming session) into a self-contained markdown plan that another agent can pick up and ship without further context.
 
@@ -21,7 +21,7 @@ If the conversation has no meaningful prior design context (no grilling, brainst
 
 > No prior design context detected. For best results, try [`/grill-me`](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) first. Continuing with gap-check…
 
-Then keep going. Do not gate, refuse, or block — this is informational only.
+Then keep going. Do not gate, refuse, or block - this is informational only.
 
 ### 2. Resolve target directory
 
@@ -38,12 +38,12 @@ The reason for the auto-detection: many projects already keep plans under `docs/
 
 Read the relevant conversation context and decide whether the four required sections can be filled with substance:
 
-- **Context** — why this work exists, what triggered it
-- **Goal** — what "done" looks like, in one paragraph
-- **Approach** — ordered, concrete implementation steps
-- **Acceptance Criteria** — verifiable checks that prove completion
+- **Context** - why this work exists, what triggered it
+- **Goal** - what "done" looks like, in one paragraph
+- **Approach** - ordered, concrete implementation steps
+- **Acceptance Criteria** - verifiable checks that prove completion
 
-If any of these is missing, vague, or in conflict, ask targeted questions using `AskUserQuestion`. Ask as many as you need — there is no cap. Stop when you can write each section with real substance, not filler. The cost of a few extra questions now is much smaller than the cost of a downstream agent bouncing back because the plan was thin.
+If any of these is missing, vague, or in conflict, ask targeted questions using `AskUserQuestion`. Ask as many as you need - there is no cap. Stop when you can write each section with real substance, not filler. The cost of a few extra questions now is much smaller than the cost of a downstream agent bouncing back because the plan was thin.
 
 ### 4. Resolve the filename slug
 
@@ -53,7 +53,7 @@ If any of these is missing, vague, or in conflict, ask targeted questions using 
 Apply these slugify rules:
 
 - Lowercase only.
-- ASCII alphanumerics and hyphens only — strip everything else.
+- ASCII alphanumerics and hyphens only - strip everything else.
 - Collapse runs of hyphens to a single hyphen.
 - Trim leading and trailing hyphens.
 - Truncate at 60 characters maximum, on a word boundary (do not cut a word in half).
@@ -74,7 +74,7 @@ Use this template. Conditional sections (`Out of scope`, `Open questions`) must 
 status: proposed
 ---
 
-# <H1 title — real prose derived from the Goal, not a humanized slug>
+# <H1 title - real prose derived from the Goal, not a humanized slug>
 
 ## Context
 
@@ -116,11 +116,11 @@ Rules for the body:
 After writing, respond with exactly this single line:
 
 ```
-Created <path> — Goal: <one-line goal>. Steps: N. Acceptance criteria: M.
+Created <path> - Goal: <one-line goal>. Steps: N. Acceptance criteria: M.
 ```
 
-Where `N` is the number of items in the Approach list and `M` is the number of Acceptance Criteria checkboxes. No additional commentary, no rendered preview — the file on disk is the artifact.
+Where `N` is the number of items in the Approach list and `M` is the number of Acceptance Criteria checkboxes. No additional commentary, no rendered preview - the file on disk is the artifact.
 
 ## Status transitions
 
-Files are always created with `status: proposed`. The user flips to `status: implemented` by hand when the plan ships. This skill is creation-only and does not manage status changes — adding a flip subcommand would muddy the single purpose.
+Files are always created with `status: proposed`. The user flips to `status: implemented` by hand when the plan ships. This skill is creation-only and does not manage status changes - adding a flip subcommand would muddy the single purpose.
