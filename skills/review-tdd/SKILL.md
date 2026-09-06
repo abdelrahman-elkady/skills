@@ -12,6 +12,8 @@ Treat the user as an engineer unfamiliar with this system. Investigate enough to
 
 Start from whatever the user provides: a ticket, document, link, file, attachment, or pasted context. Follow relevant links and attachments to find the problem and TDD wherever they live, including a TDD attached to a Jira story. Don't require both upfront.
 
+Inspect relevant HTML, embedded images/diagrams, and attached or linked assets; they may carry the main requirements. Open or render visual content rather than relying on text extraction or filenames. State any inaccessible material and how it limits your understanding or assessment.
+
 ## 1. Context - explain the problem, not the proposal
 
 - Establish the problem and scope from available sources; verify related tickets when present.
