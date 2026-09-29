@@ -2,8 +2,6 @@
 name: concise
 description: Enter concise mode for the rest of the session - human-facing text gets short and plain; agent-facing documents keep full detail.
 argument-hint: "[once]"
-disable-model-invocation: true
-user-invocable: true
 ---
 
 # /concise - fewer words, plain words
