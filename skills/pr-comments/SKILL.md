@@ -96,5 +96,6 @@ If that's intended, this is fine as is. If not, `countMonthlyOrders` has to skip
    1. **New review:** `POST /repos/{owner}/{repo}/pulls/{n}/reviews` with `commit_id` (the current head; re-anchor if it moved since drafting) and `comments[]`. Leave out `event` so the review stays PENDING while file-level threads are added.
    2. **File-level points, and every thread for the user's existing pending review:** GraphQL `addPullRequestReviewThread`, with `subjectType: FILE` for a file-level point.
    3. **Submit:** `POST /repos/{owner}/{repo}/pulls/{n}/reviews/{id}/events` with the verdict as `event`. The user's own pending review is theirs to submit: threads added to it take its verdict, and you submit it only on their word.
+   4. **Replies:** after any submit, each alone: `POST /repos/{owner}/{repo}/pulls/{n}/comments/{comment_id}/replies`, with the thread's top comment as `comment_id`.
 
 **Editing a pending comment:** right before the edit, re-read the review's state and stop if it is no longer PENDING. The edit call also rewrites submitted comments, whose notifications already carried the old text.
