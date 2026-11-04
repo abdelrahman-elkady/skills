@@ -85,7 +85,7 @@ If that's intended, this is fine as is. If not, `countMonthlyOrders` has to skip
   - A point on code outside the diff anchors to the nearest line the diff shows and names the true location.
   - A point about a whole file is a file-level comment.
   - A point with no line goes in the review body. Otherwise the body stays empty.
-- **Verdict:** `COMMENT` when every comment is `[P3]` or `[Q]`, or on the user's own PR, where GitHub rejects `REQUEST_CHANGES`; otherwise `REQUEST_CHANGES`.
+- **Verdict:** `COMMENT` when every comment is `[P3]`, `[Q]` or a `[P2]` with the can-wait closer, or on the user's own PR, where GitHub rejects `REQUEST_CHANGES`; otherwise `REQUEST_CHANGES`.
 - **A reply** goes in its thread, alone. One that carries a finding leads with its priority.
 
 ## Posting - a hard stop

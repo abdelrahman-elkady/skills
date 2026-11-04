@@ -10,7 +10,7 @@ flowchart LR
 | Stage | Does |
 |---|---|
 | `context` | Reads the PR, ticket, specs and existing reviews, and writes a 3-line brief |
-| `hunt` | Runs `/code-review` and records the findings |
+| `hunt` | Runs `/code-review`, records the findings and rates them P0-P3 |
 | `verify` | Agents try to disprove each finding and re-rate its priority, checking MCPs (logs, DB, tracker) when the code can't settle it |
-| `draft` | Leaves out what a person already ruled on, writes the rest into `drafts-<target>.md` in the session's scratchpad per `/pr-comments`, then shows the report: the verdict, findings, questions, optional replies and what was left out |
+| `draft` | Leaves out what a person already ruled on, writes the rest into `drafts-<target>.md` in the session's scratchpad per `/pr-comments`, then shows the report: the verdict, findings, P3s to pick from, questions, optional replies and what was left out |
 | `post` | Posts the drafts once you say yes |
