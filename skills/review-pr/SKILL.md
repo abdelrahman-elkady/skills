@@ -1,14 +1,19 @@
 ---
 name: review-pr
-description: Unattended PR review built on /code-review that drafts every comment, then pauses once for approval before posting.
+description: PR review built on /code-review that verifies every finding, stops at a table for you to filter, then drafts and posts what you keep. With `unattended`, drafts everything first and pauses once before posting.
 disable-model-invocation: true
 user-invocable: true
-argument-hint: "<PR|branch> [effort]"
+argument-hint: "<PR|branch> [effort] [unattended]"
 ---
 
-# /review-pr - run it, come back to one report
+# /review-pr - run it, come back to a table
 
-The stages run `context → hunt → verify → draft → post`, all in one session. First check that a `pr-comments` skill is in your skill list; without it, say so and stop, since `draft` needs it. Then read the profile, if there is one, and run straight through `draft`, whose report is the one pause: the user may be away until then, so make any call you'd ask them about and log it there. `post` runs on their yes. A branch with no PR ends at `draft`. `<target>` is the PR number, else the branch name.
+The stages run `context → hunt → verify → triage → draft → post`, all in one session. First check that a `pr-comments` skill is in your skill list; without it, say so and stop, since `draft` needs it. Then read the profile, if there is one, and run straight through `verify`: the user may be away until then, so make any call you'd ask them about and log it under **Calls to check**. A branch with no PR ends at `draft`. `<target>` is the PR number, else the branch name.
+
+From `triage` on, the run takes one of two paths:
+
+- **Driven**, the default: `triage` stops with its report and the user filters the rows with you. `draft` runs when they name the rows to draft, and stops for them to read or edit the text.
+- **Unattended**, when the arguments include the word `unattended`: the run goes straight through `draft`, whose report is the one pause.
 
 ## context
 
@@ -57,32 +62,59 @@ Each brief carries `## Priorities` and a one-line summary of every other row, an
 
 **Done when** each row above has its verdict or is past the cap.
 
+## triage
+
+Mark each confirmed row a person's ruling decides, citing the ruling; the PR's author on record counts as a person. Check this PR's threads and ticket, and search the memory files by file and symbol, not just the index, and count only what a person ruled: memory also holds past agents' verdicts. A ruled row gets no draft unless the user overrules it.
+
+Number the table's rows from 1. Each keeps its number for the whole session, dropped or not, so the user can say "drop 3, draft 1 and 5".
+
+**Stop with** the report, unless the run is unattended:
+
+1. **Headline:** whether it should merge and the main reason in bold, then the counts and the head SHA, e.g. "**#12 shouldn't merge yet: a retried webhook refunds twice.** 1 P1, 3 P3s, 1 question. Nothing is posted, and head is `abc1234`."
+2. **Table:** one row for each confirmed finding and `[Q]`, ruled ones included, each optional reply and each row past the cap. Order them P0-P2, then `[Q]`s, then P3s, with ruled and `Not verified` rows last in each group. `Initial` is the `hunt` rating; `Final` is the verifier's, in bold when it holds the merge. `Status` is a few words: how it was confirmed, why it moved, the ruling it cites, any doubt about it, or `Not verified`.
+
+   | # | Issue | Initial | Final | Status |
+   |---|---|---|---|---|
+   | 1 | A retried webhook refunds the order twice | P2 | **P1** | Reproduced locally |
+   | 2 | Should a cancelled order count toward the limit? | `[Q]` | `[Q]` | Confirmed, the author's call |
+   | 3 | Export holds the whole file in memory | P2 | P3 | Largest export is 2 MB |
+   | 4 | Stock `reconcile` re-reads the feed on retry | P3 | P3 | Ruled fine on the ticket |
+   | 5 | Comment still names the old queue | P3 | P3 | Not verified |
+
+3. **Reasoning:** each unruled P0-P2 and `[Q]`, highest first, under a `#1: <issue>` line with its anchor link, in short labeled bullets: **Cause**, **Effect**, **Evidence** (naming the MCP or the run), **Fix**, plus **Why this priority** when a verifier moved it or a stated condition would move it. When an earlier review already raised it, name its thread and what ours focuses on.
+4. **P3s and optional replies:** each unruled P3 and optional reply, one line with its anchor or thread: why it's a P3, or what the reply adds. Say they're skipped unless picked.
+5. **Left out:** one short line per dropped row and why: refuted or already raised. Confirmed rows stay in the table for the user to filter.
+6. **Out of scope:** one short line per side row worth a look.
+7. **Calls to check:** the brief; the consumers; anything else decided in the user's place.
+8. **The ask:** which rows to draft, naming your pick (by default the unruled P0-P2 and `[Q]`s); each decision only the user can make, with your recommendation; and, separately, whether to save what the run found, when there's no profile, a new consumer, or an MCP a verifier used that `evidence` doesn't list.
+
+On the reply, work through the rows with the user: check what they question, drop, add or re-rate what they say, and show the table again if the discussion goes on after a change. A `Not verified` row they pick gets its agent first. A `[Q]` answered as intended is dropped. A P2 they mark can-wait gets the can-wait closer from `/pr-comments`. A reply that names the rows to draft goes straight to `draft`.
+
+**Done when** the user has named the rows to draft, or the run is unattended.
+
 ## draft
 
-Drop each confirmed row a person's ruling decides, citing the ruling; the PR's author on record counts as a person. Check this PR's threads and ticket, and search the memory files by file and symbol, not just the index, and count only what a person ruled: memory also holds past agents' verdicts.
+Load `/pr-comments` via the Skill tool and draft by it into `drafts-<target>.md` in your session's scratchpad, or a temp folder if it has none. Keep any other file you need there too. The file's first line is the head SHA the verifiers ran at, for `post` to compare. Each draft sits under a heading with its row number and anchor.
 
-Load `/pr-comments` via the Skill tool and draft by it each remaining confirmed row, with P3s under a `P3` heading and each optional reply under an `Optional` heading, into `drafts-<target>.md` in your session's scratchpad, or a temp folder if it has none. Keep any other file you need there too. The file's first line is the head SHA the verifiers ran at, for `post` to compare. With no row left outside those headings, also draft a body-only `COMMENT` review: "No blocking issues found." if a P3 is left, else "Review done, nothing new worth flagging."
+- **Driven:** draft the rows the user named.
+- **Unattended:** draft every confirmed row that isn't ruled, with P3s under a `P3` heading and each optional reply under an `Optional` heading.
 
-**Stop with** the report, giving that file's absolute path, for the user to review and edit it:
+`triage` already applied the rulings and the user's picks stand, so these rows are the whole set, whatever `/pr-comments` finds in the project's memory.
 
-1. **Verdict:** one line of counts and the review verdict, e.g. "`REQUEST_CHANGES`: 2 findings (P1, P2), 1 P3, 2 questions, 2 optional replies, 2 out of scope". It quotes any body-only review.
-2. **Findings**, P0-P2, highest priority first, each with its anchor and exact text. When an earlier review already raised one, name its thread and what ours focuses on. When a verifier moved its priority, give both levels and why: `P1 → P2: <evidence>`.
-3. **P3s:** the same, for each P3. Say they're skipped unless picked.
-4. **Questions:** each `[Q]` with its anchor and exact text.
-5. **Optional replies:** thread link, what each adds, and its exact text. Say they're skipped unless picked.
-6. **Left out:** one short line per dropped row and why: refuted, already raised, shown not to matter, or a person's ruling. A ruled row cites the ruling and gives its confirmed priority, so the user can overrule it.
-7. **Not verified:** one short line per row past the cap, with its priority, highest first, for the user to pick.
-8. **Out of scope:** one short line per side row worth a look.
-9. **Calls to check:** the brief; the consumers; anything else decided in the user's place. With no profile, a new consumer, or an MCP a verifier used that `evidence` doesn't list, offer to save what the run found.
-10. **The ask:** whether to post this set (if there's a PR) and, separately, whether to save. Only a yes to posting runs `post`.
+When nothing would post without a further pick, because no row was named or every row sits under those headings, also draft a body-only `COMMENT` review: "No blocking issues found." if a P3 is left, else "Review done, nothing new worth flagging."
 
-On the reply, a row picked from **Not verified** gets its agent and, once confirmed, its draft, then the report again. A `[Q]` answered as intended leaves the drafts and is dropped. A P2 the user marks can-wait gets the can-wait closer from `/pr-comments`.
+**Stop with** the file's absolute path and the review verdict, for the user to read and edit, plus:
+
+- **Driven:** each draft's anchor and exact text, any body-only review quoted, each confirmed P0-P2 left undrafted, each open decision a draft assumes, and the ask: whether to post this set, if there's a PR.
+- **Unattended:** the `triage` report, with each row's anchor and exact text in place of its reasoning and any body-only review quoted. Its ask replaces which rows to draft with whether to post this set, if there's a PR.
+
+On the reply, `triage`'s reply rules still hold: make the changes in the file and show what changed. Only a yes to posting the set runs `post`.
 
 ## post
 
 - If the drafts file is gone, say so, rebuild what the session still holds and show it for a fresh yes.
 - If the head SHA moved, rerun `verify` at the new head on the drafts the new commits touch, then update the file, keeping the user's other edits, with the new SHA on its first line. If the set changed, show it for a fresh yes.
-- Post the file as it stands, minus its SHA line, each P3 and each `Optional` reply the user didn't pick and, if they picked any, the body-only review, per `/pr-comments`, which sets the verdict from what's left. If that verdict differs from the report's, show it for a fresh yes first. The report is its show step, so one yes approves the whole set.
+- Post the file as it stands, minus its SHA line and headings, each draft under a `P3` or `Optional` heading the user didn't pick and, if they picked any, the body-only review, per `/pr-comments`, which sets the verdict from what's left. If that verdict differs from the one `draft` gave, show it for a fresh yes first. What `draft` showed is its show step, so one yes to the set approves all of it.
 
 **Stop with** the comment links.
 

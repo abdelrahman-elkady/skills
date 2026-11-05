@@ -9,7 +9,7 @@ A Claude Code plugin bundling personal skills for planning and engineering workf
 | [`/kady-skills:concise`](skills/concise/SKILL.md) | Enter concise reporting mode - human-facing text gets short and plain; agent-facing documents keep full detail. |
 | [`/kady-skills:describe-pr`](skills/describe-pr/SKILL.md) | Write a PR title and description that say only what the diff can't - tickets up top, operational notes surfaced, a signposted reading path through the diff, a diagram only when it earns its place. |
 | [`/kady-skills:orchestrate`](skills/orchestrate/SKILL.md) | Enter orchestration mode - delegate discovery, implementation, and verification to subagents and ultracode workflows, and keep your own context clean for planning and synthesis. |
-| [`/kady-skills:review-pr`](skills/review-pr/SKILL.md) | Review a pull request unattended - context, hunt with `/code-review`, verify, draft - then pause once for your yes before posting. |
+| [`/kady-skills:review-pr`](skills/review-pr/SKILL.md) | Review a pull request - hunt with `/code-review`, verify each finding, filter them with you in a table, then draft and post what you keep. `unattended` drafts everything first. Needs `pr-comments`. |
 | [`/kady-skills:review-tdd`](skills/review-tdd/SKILL.md) | Understand the problem behind a technical design document (TDD), independently assess the design, then compare judgments with the user. |
 
 ## Install
