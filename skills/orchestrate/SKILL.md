@@ -55,6 +55,6 @@ Map the tier to your harness's model:
 - **Artifacts over chat:** findings, plans, and reports go to files - titles and states, not prose. Use `ai-docs/` if it exists, else wherever the project keeps AI docs, else create one; checkpoints in a `_progress/` subdirectory.
 - **Big or slow output → file, then extract:** the running agent pipes to a file, greps what matters, returns a verdict; small output, just read stdout.
 - **Verify important findings** with a second, independent agent.
-- **Hand off cleanly:** at a boundary, write the remaining work as a plan another agent can pick up (e.g. `/draft-plan`).
+- **Hand off cleanly:** at a boundary, write the remaining work as a plan another agent can pick up.
 
 Report the synthesis and decisions - not a transcript.
