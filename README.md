@@ -10,6 +10,7 @@ A Claude Code plugin bundling personal skills for planning and engineering workf
 | [`/kady-skills:describe-pr`](skills/describe-pr/SKILL.md) | Write a PR title and description that say only what the diff can't - tickets up top, operational notes surfaced, a signposted reading path through the diff, a diagram only when it earns its place. |
 | [`/kady-skills:orchestrate`](skills/orchestrate/SKILL.md) | Enter orchestration mode - delegate discovery, implementation, and verification to subagents and ultracode workflows, and keep your own context clean for planning and synthesis. |
 | [`/kady-skills:pr-comments`](skills/pr-comments/SKILL.md) | Write and post GitHub PR review comments the author can read cold - a template per comment type, one review per PR, and a hard stop before posting. |
+| [`/kady-skills:review-architecture`](skills/review-architecture/SKILL.md) | Review a PR's architecture with agents - judge each new mechanism on placement, necessity and simplest shape, ending at a verdict and a findings table. Read-only. |
 | [`/kady-skills:review-pr`](skills/review-pr/SKILL.md) | Review a pull request - hunt with `/code-review`, verify each finding, filter them with you in a table, then draft and post what you keep. `unattended` drafts everything first. Needs `pr-comments`. |
 | [`/kady-skills:review-tdd`](skills/review-tdd/SKILL.md) | Understand the problem behind a technical design document (TDD), independently assess the design, then compare judgments with the user. |
 
